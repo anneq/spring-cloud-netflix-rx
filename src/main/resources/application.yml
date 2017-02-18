@@ -1,0 +1,7 @@
+logging:
+  level:
+    anneq: debug
+
+localhost:
+  ribbon:
+    listOfServers: localhost:8080
