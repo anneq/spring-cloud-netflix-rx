@@ -1,5 +1,6 @@
 package anneq;
 
+import com.netflix.hystrix.HystrixObservable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,11 @@ public class ProductController {
      */
     @RequestMapping(path = "/dailyoffer")
     public ResponseEntity<Product> getDailyOffer() {
-        return new ResponseEntity<Product>(productClient.getById("1"), HttpStatus.OK);
+        HystrixObservable<Product> observableCommand = productClient.getById("1");
+        // In the mean time, while my product is fetched, do some other stuff.....
+        // And when all is ready... return the product
+        Product product = new Product("1");
+        return new ResponseEntity<Product>(product, HttpStatus.OK);
     }
 
 }
